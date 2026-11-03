@@ -54,6 +54,9 @@ export function createApp() {
 
   app.get('/robots.txt', async (_req, res) => res.type('text/plain').send(await buildRobots()));
   app.get('/sitemap.xml', async (_req, res) => res.type('application/xml').send(await buildSitemap()));
+  app.get('/', (_req, res) => {
+    res.json({ status: 'ok', message: 'Portfolio API is running', health: '/api/health' });
+  });
 
   app.use('/api', env.isTest ? (_q, _s, n) => n() : apiLimiter, api);
   app.use('/api', notFoundHandler);
